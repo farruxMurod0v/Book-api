@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Post;
 use App\Components\User\UserFullNameDto;
 use App\Controller\UserCreateAction;
+use App\Controller\UserFindMaxAgeAction;
 use App\Controller\UserFullNameAction;
 use App\Repository\UserRepository;
 use Doctrine\DBAL\Types\Types;
@@ -45,6 +46,11 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Post(
             uriTemplate: 'users/auth',
             name: 'auth'
+        ),
+        new GetCollection(
+            uriTemplate: 'users/maxAge/find',
+            controller: UserFindMaxAgeAction::class,
+            name: 'MaxAge'
         )
     ],
     normalizationContext: ['groups' => ['user:read']],
@@ -87,7 +93,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     private ?int $age = null;
 
     #[ORM\Column(length: 255)]
-    #[Assert\Choice(choices: ['men', 'women'], message: 'Choose a valid gender')]
+    #[Assert\Choice(choices: ['man', 'woman'], message: 'Choose a valid gender')]
     #[Groups(['user:read', 'user:write'])]
     private ?string $gender = null;
 

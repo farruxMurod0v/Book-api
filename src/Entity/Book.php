@@ -2,8 +2,12 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Post;
 use App\Controller\FindBookByCategoryAction;
 use App\Controller\FindBooksByTextAction;
 use App\Repository\BookRepository;
@@ -14,6 +18,8 @@ use Symfony\Component\Serializer\Attribute\Groups;
 #[ORM\Entity(repositoryClass: BookRepository::class)]
 #[ApiResource(
     operations: [
+        new GetCollection(),
+        new Post(),
         new GetCollection(
             uriTemplate: 'books/by-category',
             controller: FindBookByCategoryAction::class,
@@ -34,11 +40,13 @@ use Symfony\Component\Serializer\Attribute\Groups;
             uriTemplate: 'books/by-text/find',
             controller: FindBooksByTextAction::class,
             name: 'byText'
-        )
+        ),
+        new Get(),
     ],
     normalizationContext: ['groups' => ['book:read']],
     denormalizationContext: ['groups' => ['book:write']]
 )]
+#[ApiFilter(SearchFilter::class, properties: ['category.id' => 'exact'])]
 #[Groups(['book:read'])]
 class Book
 {
@@ -51,7 +59,7 @@ class Book
     #[Groups(['book:write'])]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(length: 25555, nullable: true)]
     #[Groups(['book:write'])]
     private ?string $description = null;
 

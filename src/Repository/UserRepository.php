@@ -21,6 +21,16 @@ class UserRepository extends ServiceEntityRepository
         parent::__construct($registry, User::class);
     }
 
+    public function findOneMaxAge(): int
+    {
+        $result = $this->createQueryBuilder('u')
+            ->select('max(u.age)')
+            ->getQuery()
+            ->getSingleScalarResult();
+
+        return $result ? (int)$result : 0;
+    }
+
     //    /**
     //     * @return User[] Returns an array of User objects
     //     */

@@ -11,6 +11,7 @@
 
 # phpStorm fayli
 /.idea
+/public/media/*
 
 # docker
 /docker/mysql/db
