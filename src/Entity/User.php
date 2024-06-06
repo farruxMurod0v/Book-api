@@ -86,7 +86,7 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     #[Assert\Range(
         notInRangeMessage: 'You must be between {{ min }}  and {{ max }} age to enter',
-        min: 15,
+        min: 1,
         max: 100,
     )]
     #[Groups(['user:read', 'user:write'])]
