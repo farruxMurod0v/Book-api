@@ -80,14 +80,14 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface
     private ?string $email = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['user:write'])]
+    #[Groups(['user:write', 'user:read'])]
     private ?string $password = null;
 
-    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    #[ORM\Column(type: Types::STRING, nullable: true)]
     #[Assert\Range(
         notInRangeMessage: 'You must be between {{ min }}  and {{ max }} age to enter',
-        min: 1,
-        max: 100,
+        min: '1',
+        max: '100',
     )]
     #[Groups(['user:read', 'user:write'])]
     private ?int $age = null;
